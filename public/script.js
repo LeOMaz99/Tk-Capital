@@ -1,6 +1,6 @@
 'use strict';
 
-const ENDPOINT_URL = 'http://localhost:3001';
+const ENDPOINT_URL = 'https://tk-capital.herokuapp.com';
 
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
