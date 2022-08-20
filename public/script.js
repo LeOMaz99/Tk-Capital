@@ -1,6 +1,6 @@
 'use strict';
 
-const ENDPOINT_URL = 'http://localhost:8080';
+const ENDPOINT_URL = 'http://localhost:3001';
 
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
@@ -76,13 +76,11 @@ tabsContainer.addEventListener('click', function (e) {
 nav.addEventListener('mouseover', function (e) {
   if (e.target.classList.contains('nav__link')) {
     const link = e.target;
-    console.log(link);
     window.link = link;
     const siblings = link.closest('.nav').querySelectorAll('.nav__link');
     const logo = link.closest('.nav').querySelector('img');
 
     siblings.forEach(el => {
-      console.log(el);
       if (el !== link) {
         el.style.opacity = 0.5;
       }
@@ -238,8 +236,12 @@ button.addEventListener('click', event => {
     mail: mail.value,
     insta: insta.value,
   };
-  console.log(data);
 
+  if(!data.firstName || !data.lastName || !data.number || !data.mail || !data.insta){
+    return alert('Please fill all the fields');
+  }
+
+  button.disabled = true;
   fetch(`${ENDPOINT_URL}/book`, {
     headers: {
       'Content-Type': 'application/json',
@@ -247,8 +249,15 @@ button.addEventListener('click', event => {
     method: 'POST',
     body: JSON.stringify(data),
   })
-    .then(r => r.json())
-    .then(res => {
-      console.log(res);
-    });
+    .then(() => {
+      button.disabled = false;
+      btnCloseModal.click();
+      alert('Thank you for booking with us!');
+      // clear values
+      firstName.value = '';
+      lastName.value = '';
+      number.value = '';
+      mail.value = '';
+      insta.value = '';
+    })
 });
